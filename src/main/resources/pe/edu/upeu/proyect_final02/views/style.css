@@ -1,0 +1,107 @@
+/* Fondo general */
+.root {
+    -fx-font-family: "Segoe UI", Helvetica, Arial, sans-serif;
+}
+
+/* Panel Azul Izquierdo */
+.left-pane {
+    -fx-background-color: #014074;
+    -fx-alignment: center;
+}
+
+/* Panel Gris Derecho */
+.right-pane {
+    -fx-background-color: #F7F7F7;
+    -fx-alignment: center-left;
+}
+
+/* Estilo de los campos de texto */
+.text-field {
+    -fx-background-color: white;
+    -fx-border-color: #DCDCDC;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+    -fx-padding: 10;
+}
+
+.text-field:focused {
+    -fx-border-color: #014074;
+    -fx-border-width: 2;
+}
+
+/* BOTÓN AMARILLO PRO */
+.button-login {
+    -fx-background-color: #EFA30E;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+    -fx-background-radius: 10;
+    -fx-cursor: hand;
+    -fx-padding: 10 30 10 30;
+}
+
+.button-login:hover {
+    -fx-background-color: #d48f0c;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 10, 0, 0, 5);
+}
+
+/* Sidebar */
+.sidebar {
+    -fx-background-color: linear-gradient(to bottom, #0F0F0E, #FFFFFF);
+    -fx-padding: 20 0 0 0;
+
+}
+
+/* Botones de Navegación */
+.nav-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+    -fx-alignment: center-left;
+    -fx-font-size: 14px;
+    -fx-padding: 15 20 15 20;
+    -fx-cursor: hand;
+    -fx-border-color: transparent transparent transparent transparent;
+    -fx-border-width: 0 0 0 5;
+}
+
+.nav-button:hover {
+    -fx-background-color: rgba(255, 255, 255, 0.1); /* Amarillo con transparencia */
+    -fx-border-color: transparent transparent transparent #ededed; /* Borde amarillo lateral */
+}
+
+/* Cabecera */
+.header {
+    -fx-background-color: white;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 2);
+}
+
+/* Contenedor de contenido */
+.content-area {
+    -fx-background-color: #F7F7F7;
+}
+/* Alinear el texto de las cabeceras a la izquierda */
+.table-view .column-header .label {
+    -fx-alignment: CENTER_LEFT;
+    -fx-padding: 0 0 0 10; /* Un pequeño margen a la izquierda para que no pegue al borde */
+}
+
+/* Opcional: Si quieres que las cabeceras tengan el color azul de tu marca */
+.table-view .column-header {
+    -fx-background-color: #f4f4f4; /* Color de fondo de la cabecera */
+    -fx-border-color: #e0e0e0;
+}
+
+.table-view .column-header .label {
+    -fx-text-fill: #014074; /* Tu color azul para el texto de la cabecera */
+    -fx-font-weight: bold;
+}
+
+.button-action-edit{
+-fx-background-color: #014074;
+ -fx-text-fill: white;
+}
+
+.button-action-delete{
+-fx-background-color: #FF6666;
+-fx-text-fill: white;
+}

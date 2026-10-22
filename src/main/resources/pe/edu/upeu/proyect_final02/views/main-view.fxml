@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.text.Font?>
+<?import javafx.geometry.Insets?>
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml" stylesheets="@style.css"
+            fx:controller="pe.edu.upeu.proyect_final02.controller.MainController"
+            prefHeight="600.0" prefWidth="900.0">
+<!--cabezera-->
+    <top>
+        <HBox alignment="CENTER_LEFT" prefHeight="70.0" styleClass="header" BorderPane.alignment="CENTER">
+            <children>
+                <Label text="Biblioteca" textFill="black">
+                    <font>
+                        <Font name="System Bold" size="24.0"/>
+                    </font>
+                    <HBox.margin>
+                        <Insets left="20.0"/>
+                    </HBox.margin>
+                </Label>
+                <Label text="UPeU" textFill="#666666">
+                    <HBox.margin>
+                        <Insets left="10.0"/>
+                    </HBox.margin>
+                </Label>
+                <Region HBox.hgrow="ALWAYS"/>
+                <Label text="Bienvenido, Usuario :D" textFill="dimgray">
+                    <font>
+                        <Font name="System Italic" size="14.0"/>
+                    </font>
+                    <HBox.margin>
+                        <Insets right="20.0"/>
+                    </HBox.margin>
+                </Label>
+            </children>
+        </HBox>
+    </top>
+    <!--Menu Izquierdo-->
+    <left>
+     <VBox prefWidth="200.0" styleClass="sidebar" BorderPane.alignment="CENTER">
+         <children>
+             <Button maxWidth="-Infinity" onAction="#showHome" mnemonicParsing="false" styleClass="nav-button" text="Inicio"/>
+             <Button maxWidth="-Infinity" styleClass="nav-button" text="Clientes"/>
+             <Button maxWidth="-Infinity" styleClass="nav-button" text="Libros"/>
+             <Button maxWidth="-Infinity" styleClass="nav-button" text="Reserva"/>
+         </children>
+     </VBox>
+    </left>
+    <!--Area de contenido-->
+    <center>
+        <VBox>
+            <StackPane fx:id="contentArea" styleClass="content-area" VBox.vgrow="ALWAYS">
+                <children>
+                    <Label text="SELECCIONE UNA OPCION" textFill="black"/>
+                </children>
+            </StackPane>
+            <HBox alignment="CENTER" prefWidth="20.0">
+                <children>
+                    <Label text="©copyright J-E Studios-2026" textFill="slategrey"/>
+                </children>
+            </HBox>
+        </VBox>
+    </center>
+</BorderPane>

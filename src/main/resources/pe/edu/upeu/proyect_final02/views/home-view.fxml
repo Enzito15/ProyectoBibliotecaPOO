@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<StackPane fx:id="mainContainer" style="-fx-background-color: white" xmlns="http://javafx.com/javafx"
+           xmlns:fx="http://javafx.com/fxml">
+    <VBox>
+        <children>
+            <Label text="Bienvenidos al sistema de gestion de la biblioteca" textFill="black">
+                <font>
+                    <Font name="System Bold" size="26.0"/>
+                </font>
+            </Label>
+            <ImageView fx:id="imgBiblioteca" fitHeight="450.0" fitWidth="800.0" pickOnBounds="false" preserveRatio="true">
+                <image>
+                    <Image url="@../img/animation art GIF.gif"/>
+                </image>
+            </ImageView>
+        </children>
+    </VBox>
+
+</StackPane>
