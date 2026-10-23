@@ -3,7 +3,13 @@ package pe.edu.upeu.proyect_final02.controller;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import pe.edu.upeu.proyect_final02.HelloApplication;
 import pe.edu.upeu.proyect_final02.implementacion.ClienteDaoImpl;
 import pe.edu.upeu.proyect_final02.interfaces.IClienteDao;
 import pe.edu.upeu.proyect_final02.modelo.Cliente;
@@ -18,7 +24,7 @@ public class ClienteController {
     private TableView<Cliente> tableCliente;
     //Variable co relativa
     @FXML
-    private TableColumn<Cliente, Number> ColNumero ;
+    private TableColumn<Cliente, Number> ColNumero;
     @FXML
     private TableColumn<Cliente, Integer> ColId;
     @FXML
@@ -34,15 +40,15 @@ public class ClienteController {
     private ObservableList<Cliente> listaClientes;
 
     @FXML
-    public void initialize(){
-        ColNumero.setCellFactory(colum -> new TableCell<>(){
+    public void initialize() {
+        ColNumero.setCellFactory(colum -> new TableCell<>() {
             @Override
-            protected void updateItem(Number item, boolean empty){
+            protected void updateItem(Number item, boolean empty) {
                 super.updateItem(item, empty);
 
-                if (empty){
+                if (empty) {
                     setText(null);
-                }else{
+                } else {
                     setText(String.valueOf(getIndex() + 1));
                 }
             }
@@ -56,19 +62,21 @@ public class ClienteController {
         //Llamar al metodo
         cargarDatos();
     }
-    private void cargarDatos(){
+
+    private void cargarDatos() {
         listaClientes = FXCollections.observableArrayList(clienteDao.listAll());
         tableCliente.setItems(listaClientes);
     }
-    private void handleDelete(){
+
+    private void handleDelete() {
         Cliente selectId = tableCliente.getSelectionModel().getSelectedItem();
-        if (selectId !=null){
-            Alert confirm = utilsAlerts.mostrarAlerts("Confirmar eliminacion", "Estas seguro de eliminar este cliente " + selectId.getNombre() + "?","CONFIRMATION" );
+        if (selectId != null) {
+            Alert confirm = utilsAlerts.mostrarAlerts("Confirmar eliminacion", "Estas seguro de eliminar este cliente " + selectId.getNombre() + "?", "CONFIRMATION");
             Optional<ButtonType> result = confirm.showAndWait();
-            if (result.isPresent() && result.get() == ButtonType.OK){
-                if (clienteDao.delete(selectId)){
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+                if (clienteDao.delete(selectId)) {
                     listaClientes.remove(selectId);
-                }else{
+                } else {
                     Alert warning = utilsAlerts.mostrarAlerts("Seleccion requerrida", "seleccione un cliente para eliminar",
                             "WARNING");
                     warning.showAndWait();
@@ -76,10 +84,60 @@ public class ClienteController {
             }
         }
     }
-    private void handleNew(){
 
+    private void handleNew() {
+        System.out.println("Abriendo Formulario");
+        showForm(null);
     }
-    private void showForm(Cliente c){
 
+    private void handleEdit() {
+        Cliente selectClient = tableCliente.getSelectionModel().getSelectedItem();
+        if (selectClient !=null) {
+            Cliente clienteFull = clienteDao.searchById(selectClient.getIdcliente());
+            showForm(clienteFull);
+        } else {
+            Alert alert = utilsAlerts.mostrarAlerts("Sleccion Requerida","", "WARNING");
+            alert.show();
+        }
+    }
+
+    private void showForm(Cliente c) {
+        try {
+            FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("/pe/edu/upeu/proyect_final02/views/cliente-form.fxml"));
+            Parent root = loader.load();
+            ClienteFromController controler = loader.getController();
+            controler.setCliente(c);
+            Stage stage = new Stage();
+            stage.setTitle(c==null ?"nuevo cliente": "editar cliente");
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setScene(new Scene(root));
+            stage.showAndWait();
+            if (controler.isSaved()){
+                Cliente clienteProcesado = controler.getCliente();
+                if (c==null){
+                    boolean result = clienteDao.insert(clienteProcesado);
+                    if (result){
+                        Alert alert = utilsAlerts.mostrarAlerts("success", "registro sastisfactorio", "CONFIRMATION");
+                        alert.show();
+                    }else{
+                        Alert alert = utilsAlerts.mostrarAlerts("ERROR", "ERROR", "ERROR");
+                        alert.show();
+                    }
+                }else{
+                    boolean result = clienteDao.update (clienteProcesado);
+                    if (result){
+                        Alert alert = utilsAlerts.mostrarAlerts("success", "registro sastisfactorio", "WARNING");
+                        alert.show();
+                    }else{
+                        Alert alert = utilsAlerts.mostrarAlerts("ERROR", "Error", "ERROR");
+                        alert.show();
+                    }
+                }
+                cargarDatos();
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

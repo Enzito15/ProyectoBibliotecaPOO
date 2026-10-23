@@ -31,7 +31,7 @@
 
 /* BOTÓN AMARILLO PRO */
 .button-login {
-    -fx-background-color: #EFA30E;
+    -fx-background-color: #000000;
     -fx-text-fill: white;
     -fx-font-weight: bold;
     -fx-font-size: 14px;
@@ -41,7 +41,7 @@
 }
 
 .button-login:hover {
-    -fx-background-color: #d48f0c;
+    -fx-background-color: #000000;
     -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 10, 0, 0, 5);
 }
 
