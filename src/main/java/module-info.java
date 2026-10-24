@@ -11,7 +11,6 @@ module pe.edu.upeu.proyect_final02 {
     requires org.xerial.sqlitejdbc;
     requires javafx.base;
     requires javafx.graphics;
-    requires pe.edu.upeu.proyect_final02;
 
     opens pe.edu.upeu.proyect_final02 to javafx.fxml;
     //Abrir el modelo para que las tablas de FX Funcionen
