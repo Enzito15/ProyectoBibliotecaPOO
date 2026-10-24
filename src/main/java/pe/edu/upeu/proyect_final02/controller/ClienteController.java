@@ -36,6 +36,9 @@ public class ClienteController {
     @FXML
     private TableColumn<Cliente, String> ColEmail;
 
+    @FXML
+    private TextField txtBuscar;
+
     private final IClienteDao clienteDao = new ClienteDaoImpl();
     private ObservableList<Cliente> listaClientes;
 
@@ -66,6 +69,26 @@ public class ClienteController {
     private void cargarDatos() {
         listaClientes = FXCollections.observableArrayList(clienteDao.listAll());
         tableCliente.setItems(listaClientes);
+    }
+    @FXML
+    private void handleSearch() {
+        String texto = txtBuscar.getText() == null ? "" : txtBuscar.getText().trim();
+        if (texto.isEmpty()) {
+            cargarDatos();
+            return;
+        }
+        Cliente encontrado = clienteDao.searchByDni(texto);
+        listaClientes = FXCollections.observableArrayList();
+        if (encontrado != null) {
+            listaClientes.add(encontrado);
+        }
+        tableCliente.setPlaceholder(new Label("No se encontro ningun cliente con ese DNI"));
+        tableCliente.setItems(listaClientes);
+    }
+    @FXML
+    private void handleClear() {
+        txtBuscar.clear();
+        cargarDatos();
     }
     @FXML
     private void handleDelete() {

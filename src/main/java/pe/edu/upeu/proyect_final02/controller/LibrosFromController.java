@@ -15,7 +15,7 @@ public class LibrosFromController {
     @FXML
     private Label lbTitulo;
     @FXML
-    private TextField txtTitulo, txtVolumen, txtAutor, txtPrecio,txtEstado;
+    private TextField txtNumero, txtTitulo, txtVolumen, txtAutor, txtPrecio,txtEstado;
     @FXML
     private Libros libros;
     private boolean saved = false;
@@ -29,7 +29,7 @@ public class LibrosFromController {
 
 
     private boolean validated(){
-        if (txtTitulo.getText().isEmpty() && txtAutor.getText().isEmpty()){
+        if (txtNumero.getText().trim().isEmpty() || txtTitulo.getText().trim().isEmpty() || txtAutor.getText().trim().isEmpty()){
             Alert alert = utilsAlerts.mostrarAlerts("","Titulo y Autor son Obligatoorios","ERROR");
             alert.show();
             return false;
@@ -58,6 +58,7 @@ public class LibrosFromController {
             }
 
             if (libros == null) libros = new Libros();
+            libros.setNumero(txtNumero.getText().trim());
             libros.setTitulo(txtTitulo.getText());
             libros.setVolumen(txtVolumen.getText());
             libros.setAutor(txtAutor.getText());
@@ -72,6 +73,7 @@ public class LibrosFromController {
         this.libros = l;
         if (l!= null){
             lbTitulo.setText("EDITAR LIBRO");
+            txtNumero.setText(l.getNumero());
             txtTitulo.setText(l.getTitulo());
             txtVolumen.setText(l.getVolumen());
             txtAutor.setText(l.getAutor());

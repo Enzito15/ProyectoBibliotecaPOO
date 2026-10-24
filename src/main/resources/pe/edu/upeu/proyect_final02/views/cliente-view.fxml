@@ -23,6 +23,13 @@
                 <Button mnemonicParsing="false" styleClass="button-login" onAction="#handleNew" text="+ New"/>
             </children>
         </HBox>
+        <HBox alignment="CENTER_LEFT" spacing="10.0">
+            <children>
+                <TextField fx:id="txtBuscar" promptText="Buscar por DNI..." onAction="#handleSearch" HBox.hgrow="ALWAYS"/>
+                <Button mnemonicParsing="false" styleClass="button-login" onAction="#handleSearch" text="Buscar"/>
+                <Button mnemonicParsing="false" styleClass="button-login" onAction="#handleClear" text="Limpiar"/>
+            </children>
+        </HBox>
         <TableView fx:id="tableCliente" VBox.vgrow="ALWAYS">
             <columns>
                 <TableColumn fx:id="ColNumero" prefWidth="30.0" text="N"/>

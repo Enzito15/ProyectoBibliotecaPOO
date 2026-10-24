@@ -38,6 +38,10 @@ public class LibrosController {
     @FXML
     private TableColumn<Libros, String> ColEstado;
 
+    @FXML
+    private TextField txtBuscar;
+
+
     private final ILibrosDao librosDao = new LibrosDaoImpl();
     private ObservableList<Libros> listaClientes;
 
@@ -73,7 +77,22 @@ public class LibrosController {
         listaClientes = FXCollections.observableArrayList(librosDao.listAll());
         tableLibros.setItems(listaClientes);
     }
-
+    @FXML
+    private void handleSearch() {
+        String texto = txtBuscar.getText() == null ? "" : txtBuscar.getText().trim();
+        if (texto.isEmpty()) {
+            cargarDatos();
+            return;
+        }
+        listaClientes = FXCollections.observableArrayList(librosDao.searchByTitulo(texto));
+        tableLibros.setPlaceholder(new Label("No se encontraron libros con ese titulo"));
+        tableLibros.setItems(listaClientes);
+    }
+    @FXML
+    private void handleClear() {
+        txtBuscar.clear();
+        cargarDatos();
+    }
     @FXML
     private void handleDelete() {
         Libros selectId = tableLibros.getSelectionModel().getSelectedItem();
@@ -101,9 +120,9 @@ public class LibrosController {
     }
     @FXML
     private void handleEdit(){
-        Libros selectClient = tableLibros.getSelectionModel().getSelectedItem();
-        if (selectClient !=null){
-            Libros librosFull = librosDao.searchById(selectClient.getIdlibros());
+        Libros selectLibros = tableLibros.getSelectionModel().getSelectedItem();
+        if (selectLibros !=null){
+            Libros librosFull = librosDao.searchById(selectLibros.getIdlibros());
             showForm(librosFull);
         }else{
             Alert alert = utilAlerts.mostrarAlerts("Seleccion requerida","", "WARNING");

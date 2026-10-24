@@ -46,6 +46,7 @@ public class LibrosDaoImpl implements ILibrosDao {
             st.setString(4, c.getVolumen());
             st.setDouble(5, c.getPrecio());
             st.setString(6, c.getEstado());
+            st.setInt(7, c.getIdlibros());
             st.executeUpdate();
             flag = true;
 
