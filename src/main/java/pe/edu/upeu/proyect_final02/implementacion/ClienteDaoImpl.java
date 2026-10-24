@@ -35,7 +35,7 @@ public class ClienteDaoImpl implements IClienteDao {
     @Override
     public boolean update(Cliente c) {
         boolean flag = false;
-        String query = "UPDATE cliente SET nombre=?,apellidos=?,dni=?,email=?" + "WHERE idcliente";
+        String query = "UPDATE cliente SET nombre=?,apellidos=?,dni=?,email=? WHERE idcliente=?";
         try (Connection cn = ConexionBD.getConnection();
              PreparedStatement st = cn.prepareStatement(query);) {
             st.setString(1, c.getNombre());
@@ -47,7 +47,7 @@ public class ClienteDaoImpl implements IClienteDao {
             flag = true;
 
         } catch (SQLException e) {
-            System.out.println("Error al incertar: " + e.getMessage());
+            System.out.println("Error al actualizar: " + e.getMessage());
         }
         return flag;
     }
@@ -70,7 +70,7 @@ public class ClienteDaoImpl implements IClienteDao {
                 }
             }
         } catch (SQLException e) {
-            System.out.println("Error al listar cliente por Id:" + e.getMessage());
+            System.out.println("Error al buscar cliente por Id:" + e.getMessage());
         }
         return cl;
     }
@@ -134,7 +134,7 @@ public class ClienteDaoImpl implements IClienteDao {
                 }
             }
         } catch (SQLException e) {
-            System.out.println("Error al listar cliente por Id:" + e.getMessage());
+            System.out.println("Error al buscar por dni:" + e.getMessage());
         }
         return cl;
     }

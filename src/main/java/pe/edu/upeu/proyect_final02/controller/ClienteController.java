@@ -67,7 +67,7 @@ public class ClienteController {
         listaClientes = FXCollections.observableArrayList(clienteDao.listAll());
         tableCliente.setItems(listaClientes);
     }
-
+    @FXML
     private void handleDelete() {
         Cliente selectId = tableCliente.getSelectionModel().getSelectedItem();
         if (selectId != null) {
@@ -85,11 +85,12 @@ public class ClienteController {
         }
     }
 
+    @FXML
     private void handleNew() {
         System.out.println("Abriendo Formulario");
         showForm(null);
     }
-
+    @FXML
     private void handleEdit() {
         Cliente selectClient = tableCliente.getSelectionModel().getSelectedItem();
         if (selectClient !=null) {

@@ -29,7 +29,7 @@ public class ClienteFromController {
 
 
     private boolean validated(){
-        if (txtNombre.getText().isEmpty() && txtEmail.getText().isEmpty()){
+        if (txtNombre.getText().isEmpty() && txtDni.getText().isEmpty()){
             Alert alert = utilsAlerts.mostrarAlerts("","Nombre y DNI son Obligatoorios","ERROR");
                     alert.show();
             return false;

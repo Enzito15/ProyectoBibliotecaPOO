@@ -5,10 +5,57 @@
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.text.Font?>
+<VBox spacing="20.0" style="-fx-background-color: white"
+      stylesheets="@style.css" xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="pe.edu.upeu.proyect_final02.controller.ClienteFromController">
+    <padding>
+        <Insets bottom="25.0" left="25.0" right="25.0" top="25.0"/>
+    </padding>
+    <children>
+        <Label fx:id="lbTitulo" text="Datos del Cliente" textFill="#014074">
+            <font>
+                <Font name="System Bold" size="18.0"/>
+            </font>
+        </Label>
+        <Separator prefWidth="200.0"/>
+        <GridPane hgap="10.0" vgap="15.0">
+            <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="250.0"/>
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+            </rowConstraints>
+            <children>
+                <Label text="Nombre"/>
+                <TextField fx:id="txtNombre" GridPane.columnIndex="1"/>
+                <Label text="Apellidos" GridPane.rowIndex="1"/>
+                <TextField fx:id="txtApellidos" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                <Label text="DNI" GridPane.rowIndex="2"/>
+                <TextField fx:id="txtDni" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+                <Label text="EMAIL" GridPane.rowIndex="3"/>
+                <TextField fx:id="txtEmail" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+            </children>
+        </GridPane>
+        <HBox alignment="CENTER_RIGHT" spacing="10.0">
+            <children>
+                <Button mnemonicParsing="false" onAction="#handleCancel"
+                        prefHeight="31.0" prefWidth="100.0" styleClass="buttom-action-delete" text="Cancelar"/>
+                <Button mnemonicParsing="false" onAction="#handleSave"
+                        prefHeight="31.0" prefWidth="100.0" styleClass="buttom-action-edit" text="Guardar"/>
+            </children>
+            <VBox.margin>
+                <Insets top="10.0"/>
+            </VBox.margin>
+        </HBox>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="CONTROLLER_NAME"
-            prefHeight="400.0" prefWidth="600.0">
+    </children>
 
-</AnchorPane>
+</VBox>
