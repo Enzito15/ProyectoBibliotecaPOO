@@ -4,12 +4,12 @@ import javafx.beans.property.*;
 
 public class Libros {
     private final IntegerProperty idlibros = new SimpleIntegerProperty();
-    private final StringProperty numero = new SimpleStringProperty(this, "numero");
-    private final StringProperty titulo = new SimpleStringProperty(this, "titulo");
-    private final StringProperty volumen = new SimpleStringProperty(this, "volumen");
-    private final StringProperty autor = new SimpleStringProperty(this, "autor");
-    private final DoubleProperty precio = new SimpleDoubleProperty(this, "precio");
-    private final StringProperty estado = new SimpleStringProperty(this, "estado");
+    private final StringProperty numero = new SimpleStringProperty();
+    private final StringProperty titulo = new SimpleStringProperty();
+    private final StringProperty volumen = new SimpleStringProperty();
+    private final StringProperty autor = new SimpleStringProperty();
+    private final DoubleProperty precio = new SimpleDoubleProperty();
+    private final StringProperty estado = new SimpleStringProperty();
 
     public Libros() {
     }

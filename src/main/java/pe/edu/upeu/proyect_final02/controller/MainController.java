@@ -25,14 +25,11 @@ public class MainController {
         private void showClient(){
             loadview("cliente-view.fxml");
         }
-        /*
+
         @FXML
-        private void showHabitacion(){
-            loadview("habitacion-view.fxml");
+        private void showLibros(){
+            loadview("libros-view.fxml");
         }
-
-         */
-
 
 
         //metodo que llama y busca a las vistas
