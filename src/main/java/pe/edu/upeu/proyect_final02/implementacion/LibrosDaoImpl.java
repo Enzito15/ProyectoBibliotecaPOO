@@ -37,7 +37,7 @@ public class LibrosDaoImpl implements ILibrosDao {
     @Override
     public boolean update(Libros c) {
         boolean flag = false;
-        String query = "UPDATE  SET libros numero=?,titulo=?, volumen=?,autor=?,precio=?,estado=?" + "WHERE idlibros";
+        String query = "UPDATE libros SET numero=?,titulo=?,volumen=?,autor=?,precio=?,estado=? WHERE idlibros=?";
         try (Connection cn = ConexionBD.getConnection();
              PreparedStatement st = cn.prepareStatement(query);) {
             st.setString(1, c.getNumero());

@@ -48,7 +48,7 @@
              <Button maxWidth="-Infinity" onAction="#showHome" mnemonicParsing="false" styleClass="nav-button" text="Inicio"/>
              <Button maxWidth="-Infinity" onAction="#showClient" styleClass="nav-button" text="Clientes"/>
              <Button maxWidth="-Infinity" onAction="#showLibros" styleClass="nav-button" text="Libros"/>
-             <Button maxWidth="-Infinity" styleClass="nav-button" text="Reserva"/>
+             <Button maxWidth="-Infinity" onAction="#showReserva" styleClass="nav-button" text="Alquiler"/>
          </children>
      </VBox>
     </left>
