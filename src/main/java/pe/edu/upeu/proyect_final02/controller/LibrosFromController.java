@@ -13,6 +13,8 @@ import pe.edu.upeu.proyect_final02.interfaces.ILibrosDao;
 
 public class LibrosFromController {
     public static UtilsAlerts utilsAlerts = new UtilsAlerts();
+    // esto hace que al editar un libro no choque con su propio número. Con esto, si se repites un número
+    // el formulario se queda abierto con el aviso y no pierdes lo escrito (Error de ultima hora XDD)
     private final ILibrosDao librosDao = new LibrosDaoImpl();
 
     @FXML
@@ -33,7 +35,7 @@ public class LibrosFromController {
 
     private boolean validated(){
         if (txtNumero.getText().trim().isEmpty() || txtTitulo.getText().trim().isEmpty() || txtAutor.getText().trim().isEmpty()){
-            Alert alert = utilsAlerts.mostrarAlerts("","Titulo y Autor son Obligatoorios","ERROR");
+            Alert alert = utilsAlerts.mostrarAlerts("","Titulo y Autor son Obligatorios","ERROR");
             alert.show();
             return false;
 
