@@ -12,4 +12,5 @@ public interface ILibrosDao {
     public List<Libros> listAll();
 
     public Libros searchByTitulo(String titulo);
+    public boolean existsNumero(String numero, int idlibros);
 }

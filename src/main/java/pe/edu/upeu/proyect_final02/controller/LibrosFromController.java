@@ -8,9 +8,12 @@ import javafx.stage.Stage;
 import pe.edu.upeu.proyect_final02.modelo.Cliente;
 import pe.edu.upeu.proyect_final02.modelo.Libros;
 import pe.edu.upeu.proyect_final02.utils.UtilsAlerts;
+import pe.edu.upeu.proyect_final02.implementacion.LibrosDaoImpl;
+import pe.edu.upeu.proyect_final02.interfaces.ILibrosDao;
 
 public class LibrosFromController {
     public static UtilsAlerts utilsAlerts = new UtilsAlerts();
+    private final ILibrosDao librosDao = new LibrosDaoImpl();
 
     @FXML
     private Label lbTitulo;
@@ -31,6 +34,13 @@ public class LibrosFromController {
     private boolean validated(){
         if (txtNumero.getText().trim().isEmpty() || txtTitulo.getText().trim().isEmpty() || txtAutor.getText().trim().isEmpty()){
             Alert alert = utilsAlerts.mostrarAlerts("","Titulo y Autor son Obligatoorios","ERROR");
+            alert.show();
+            return false;
+
+        }
+        int idActual = (libros != null) ? libros.getIdlibros() : 0;
+        if (librosDao.existsNumero(txtNumero.getText().trim(), idActual)) {
+            Alert alert = utilsAlerts.mostrarAlerts("", "Ya existe un libro con ese numero", "ERROR");
             alert.show();
             return false;
         }

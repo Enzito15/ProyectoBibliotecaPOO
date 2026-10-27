@@ -149,4 +149,20 @@ public class LibrosDaoImpl implements ILibrosDao {
         }
         return l;
     }
+
+    @Override
+    public boolean existsNumero(String numero, int idlibros) {
+        String query = "SELECT count(*) FROM libros WHERE numero = ? AND idlibros <> ?";
+        try (Connection cn = ConexionBD.getConnection();
+             PreparedStatement st = cn.prepareStatement(query)) {
+            st.setString(1, numero);
+            st.setInt(2, idlibros);
+            try (ResultSet rs = st.executeQuery()) {
+                return rs.next() && rs.getInt(1) > 0;
+            }
+        } catch (SQLException e) {
+            System.out.println("Error al validar numero: " + e.getMessage());
+        }
+        return false;
+    }
 }
