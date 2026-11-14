@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.text.Font?>
+<?import javafx.geometry.Insets?>
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="pe.edu.upeu.proyect_final02.controller.LoginController"
+            prefHeight="400.0" prefWidth="600.0" stylesheets="@style.css">
+    <children>
+        <HBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <children>
+                <!--Lado izquierdo-->
+                <VBox prefWidth="250.0" styleClass="left-pane" HBox.hgrow="ALWAYS">
+                    <children>
+                        <Label text="UPeU" textFill="white">
+                            <font>
+                                <Font name="System Bold" size="48.0"/>
+                            </font>
+                        </Label>
+                        <Label text="Gestion de la Biblioteca :3" textFill="white">
+                            <font>
+                                <Font size="14.8"/>
+                            </font>
+                        </Label>
+                    </children>
+                </VBox>
+                <!--Lado derecho color gris-->
+                <VBox prefWidth="350.0" spacing="20.0" styleClass="right-pane" HBox.hgrow="ALWAYS">
+                    <padding>
+                        <Insets bottom="40.0" left="40.0" right="40.0" top="40.0"/>
+                    </padding>
+                    <children>
+                        <Label text="Iniciar Session" textFill="#014074">
+                            <font>
+                                <Font name="System Bold" size="24.0"/>
+                            </font>
+                        </Label>
+                        <!--Input of the password-->
+                        <VBox spacing="5.0">
+                            <children>
+                                <Label text="Usuario" textFill="#666666"/>
+                                <TextField fx:id="txtUser" promptText="Ingrese su usuario"/>
+                            </children>
+                        </VBox>
+                        <VBox spacing="5.0">
+                            <children>
+                                <Label text="Password" textFill="#666666"/>
+                                <PasswordField fx:id="txtPassword" promptText="**************"/>
+                            </children>
+                        </VBox>
+                        <Button maxWidth="Infinity" mnemonicParsing="false" styleClass="button-login"
+                                text="Ingresar" onAction="#handleLogin">
+                            <VBox.margin>
+                                <Insets top="10.0"/>
+                            </VBox.margin>
+                        </Button>
+                    </children>
+                </VBox>
+            </children>
+        </HBox>
+    </children>
+</AnchorPane>
+
