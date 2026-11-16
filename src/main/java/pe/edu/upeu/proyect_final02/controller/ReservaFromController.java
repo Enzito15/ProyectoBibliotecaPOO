@@ -1,11 +1,9 @@
 package pe.edu.upeu.proyect_final02.controller;
 
 import javafx.collections.FXCollections;
+import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 import pe.edu.upeu.proyect_final02.implementacion.ClienteDaoImpl;
@@ -26,7 +24,9 @@ public class ReservaFromController {
     private final IReservaDao reservaDao = new ReservaDaoImpl();
 
     @FXML
-    private ComboBox<Libros> cmbLibro;
+    private TextField txtBuscarLibro;
+    @FXML
+    private ListView<Libros> lvLibros;
     @FXML
     private TextField txtDni, txtNombre, txtApellidos, txtEmail, txtTotal;
     @FXML
@@ -34,6 +34,7 @@ public class ReservaFromController {
     @FXML
     private Label lbClienteInfo;
 
+    private FilteredList<Libros> librosFiltrados;
     private Reserva reserva;
     private boolean saved = false;
 
@@ -50,22 +51,23 @@ public class ReservaFromController {
         dpAlquiler.setValue(LocalDate.now());
         dpDevolucion.setValue(LocalDate.now().plusDays(7));
 
-        cmbLibro.setConverter(new StringConverter<Libros>() {
+        lvLibros.setCellFactory(lv -> new ListCell<Libros>() {
             @Override
-            public String toString(Libros l) {
-                return l == null ? "" : l.getNumero() + " - " + l.getTitulo();
-            }
-
-            @Override
-            public Libros fromString(String s) {
-                return null;
+            protected void updateItem(Libros l, boolean empty) {
+                super.updateItem(l, empty);
+                setText(empty || l == null ? null : l.getNumero() + " - " + l.getTitulo() + " (" + l.getAutor() + ")");
             }
         });
-        // al elegir un libro, el total se llena con su precio (se puede cambiar)
-        cmbLibro.valueProperty().addListener((obs, anterior, libro) -> {
-            if (libro != null) {
-                txtTotal.setText(String.valueOf(libro.getPrecio()));
+        // buscador de libros: filtra por titulo, autor o numero mientras se escribe
+        txtBuscarLibro.textProperty().addListener((obs, anterior, texto) -> {
+            if (librosFiltrados == null) {
+                return;
             }
+            String filtro = texto == null ? "" : texto.trim().toLowerCase();
+            librosFiltrados.setPredicate(l -> filtro.isEmpty()
+                    || contiene(l.getTitulo(), filtro)
+                    || contiene(l.getAutor(), filtro)
+                    || contiene(l.getNumero(), filtro));
         });
         // al salir del campo DNI (o con Enter) se busca si el cliente ya existe
         txtDni.focusedProperty().addListener((obs, estabaEnfocado, estaEnfocado) -> {
@@ -78,9 +80,12 @@ public class ReservaFromController {
 
     // Lo llama ReservaController antes de mostrar el formulario
     public void setLibrosDisponibles(List<Libros> libros) {
-        cmbLibro.setItems(FXCollections.observableArrayList(libros));
+        librosFiltrados = new FilteredList<>(FXCollections.observableArrayList(libros), l -> true);
+        lvLibros.setItems(librosFiltrados);
     }
-
+    private boolean contiene(String campo, String filtro) {
+        return campo != null && campo.toLowerCase().contains(filtro);
+    }
     private void autocompletarCliente() {
         String dni = txtDni.getText() == null ? "" : txtDni.getText().trim();
         if (dni.isEmpty()) {
@@ -114,7 +119,7 @@ public class ReservaFromController {
 
     @FXML
     private void handleSave() {
-        Libros libro = cmbLibro.getValue();
+        Libros libro = lvLibros.getSelectionModel().getSelectedItem();
         String dni = txtDni.getText() == null ? "" : txtDni.getText().trim();
         String nombre = txtNombre.getText() == null ? "" : txtNombre.getText().trim();
         String apellidos = txtApellidos.getText() == null ? "" : txtApellidos.getText().trim();
@@ -130,17 +135,6 @@ public class ReservaFromController {
             error("Fechas invalidas", "La fecha de devolucion debe ser posterior a la fecha de alquiler");
             return;
         }
-        double total;
-        try {
-            String textoTotal = txtTotal.getText() == null ? "" : txtTotal.getText().trim();
-            total = textoTotal.isEmpty() ? libro.getPrecio() : Double.parseDouble(textoTotal.replace(',', '.'));
-            if (total < 0) {
-                throw new NumberFormatException();
-            }
-        } catch (NumberFormatException e) {
-            error("Total invalido", "El total debe ser un numero mayor o igual a 0");
-            return;
-        }
 
         Cliente cliente = new Cliente();
         cliente.setDni(dni);
@@ -154,13 +148,13 @@ public class ReservaFromController {
         reserva.setFecha_reserva(LocalDate.now());
         reserva.setFecha_ingreso(alquiler);
         reserva.setFecha_devolver(devolucion);
-        reserva.setTotal(total);
-        // si la fecha limite ya paso, nace como "No devuelto"
-        reserva.setEstado(devolucion.isBefore(LocalDate.now()) ? "No devuelto" : "Activa");
-        // el libro no puede estar sin devolver ni reservado en esas fechas
+        // la columna total guarda la multa: empieza en 0 y pasa a S/20 si no se devuelve a tiempo
+        reserva.setTotal(0);
+        reserva.setEstado("Activa");
+        // un libro alquilado no se puede volver a alquilar hasta que lo devuelvan
         if (!reservaDao.validateLibro(reserva)) {
             reserva = null;
-            error("Libro no disponible", "El libro ya esta reservado o sin devolver en esas fechas");
+            error("Libro no disponible", "El libro ya esta alquilado y aun no ha sido devuelto");
             return;
         }
         saved = true;

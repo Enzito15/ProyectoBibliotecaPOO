@@ -19,11 +19,12 @@ public class ReservaDaoImpl implements IReservaDao {
     public static final String ACTIVA = "Activa";
     public static final String NO_DEVUELTO = "No devuelto";
     public static final String DEVUELTO = "Devuelto";
+    public static final double MULTA = 20.0;
 
     // Consulta base: une reserva con cliente y libros
     private static final String SELECT_BASE = " SELECT r.*,c.nombre|| ' ' ||c.apellidos AS nombre_completo," +
             " c.dni,c.email,l.numero,l.titulo,l.volumen,l.autor," +
-            " l.estado AS estado_libro, l.precio " +
+            " l.estado AS estado_libro " +
             " FROM reserva r,cliente c,libros l " +
             " WHERE r.clienteId = c.idcliente " +
             " AND r.libroId = l.idlibros ";
@@ -143,15 +144,12 @@ public class ReservaDaoImpl implements IReservaDao {
     @Override
     public boolean validateLibro(Reserva r) {
         boolean flag = false;
-        // hay conflicto si el libro sigue sin devolverse, o si otra reserva activa se cruza con las fechas
+        // un libro alquilado (Activa o No devuelto) no se puede volver a alquilar hasta que lo devuelvan
         String query = " SELECT count(*) FROM reserva WHERE libroId=? " +
-                " AND (estado = 'No devuelto' " +
-                " OR (estado = 'Activa' AND ? < fecha_devolver AND ? > fecha_ingreso)) ";
+                " AND estado IN ('Activa','No devuelto') ";
         try (Connection cn = ConexionBD.getConnection();
              PreparedStatement st = cn.prepareStatement(query);) {
             st.setInt(1, r.getLibro().getIdlibros());
-            st.setString(2, r.getFecha_ingreso().toString());
-            st.setString(3, r.getFecha_devolver().toString());
             try (ResultSet rs = st.executeQuery()) {
                 if (rs.next()) {
                     flag = rs.getInt(1) == 0;
@@ -191,12 +189,14 @@ public class ReservaDaoImpl implements IReservaDao {
     public int updateVencidas() {
         int cambiadas = -1;
         // las fechas se guardan como "yyyy-MM-dd", asi que se comparan como texto
-        String query = "UPDATE reserva SET estado=? WHERE estado=? AND fecha_devolver < ?";
+        // al vencer la fecha pasa a "No devuelto" y se aplica la multa (columna total)
+        String query = "UPDATE reserva SET estado=?, total=? WHERE estado=? AND fecha_devolver < ?";
         try (Connection cn = ConexionBD.getConnection();
              PreparedStatement st = cn.prepareStatement(query)) {
             st.setString(1, NO_DEVUELTO);
-            st.setString(2, ACTIVA);
-            st.setString(3, LocalDate.now().toString());
+            st.setDouble(2, MULTA);
+            st.setString(3, ACTIVA);
+            st.setString(4, LocalDate.now().toString());
             cambiadas = st.executeUpdate();
         } catch (SQLException e) {
             System.out.println("Error al actualizar reservas vencidas: " + e.getMessage());
@@ -218,7 +218,6 @@ public class ReservaDaoImpl implements IReservaDao {
         l.setTitulo(rs.getString("titulo"));
         l.setVolumen(rs.getString("volumen"));
         l.setAutor(rs.getString("autor"));
-        l.setPrecio(rs.getDouble("precio"));
         l.setEstado(rs.getString("estado_libro"));
         //crear la reserva y asignar objetos
         Reserva r = new Reserva();

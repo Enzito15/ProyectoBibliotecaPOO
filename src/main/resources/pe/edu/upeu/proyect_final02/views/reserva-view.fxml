@@ -16,7 +16,7 @@
     <children>
         <HBox alignment="CENTER_LEFT" spacing="15.0">
             <children>
-                <Label text="Gestion del Alquiler de Libros" textFill="black">
+                <Label text="Gestion de Reservas" textFill="black">
                     <font>
                         <Font name="System Bold" size="20.0"/>
                     </font>
@@ -40,7 +40,7 @@
                 <TableColumn fx:id="ColLibro" prefWidth="150.0" text="Libro"/>
                 <TableColumn fx:id="ColAlquiler" prefWidth="90.0" text="Alquiler"/>
                 <TableColumn fx:id="ColDevolucion" prefWidth="90.0" text="Devolucion"/>
-                <TableColumn fx:id="ColTotal" prefWidth="60.0" text="Total"/>
+                <TableColumn fx:id="ColTotal" prefWidth="60.0" text="Multa"/>
                 <TableColumn fx:id="ColEstado" prefWidth="100.0" text="Estado"/>
             </columns>
             <columnResizePolicy>

@@ -3,16 +3,24 @@ package pe.edu.upeu.proyect_final02.controller;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
+import pe.edu.upeu.proyect_final02.modelo.UserSession;
 
 import java.io.IOException;
 
 public class MainController {
     @FXML
     private StackPane contentArea;
+    @FXML
+    private Label lblUsuario;
 
     @FXML
     public void initialize() {
+        if (UserSession.getInstance().getUserLogin() !=null){
+            lblUsuario.setText("Bienvenido, " + UserSession.getInstance()
+                    .getUserLogin().getNombre());
+        }
         showHome();
     }
 
@@ -35,6 +43,11 @@ public class MainController {
     @FXML
     private void showReserva() {
         loadview("reserva-view.fxml");
+    }
+    @FXML
+    private void handleLogout(){
+        UserSession.getInstance().cleanSession();
+        System.exit(0);
     }
 
 

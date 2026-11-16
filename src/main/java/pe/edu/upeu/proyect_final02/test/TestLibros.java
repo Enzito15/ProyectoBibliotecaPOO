@@ -17,7 +17,6 @@ public class TestLibros {
                 System.out.println("Titulo: " + libros.getTitulo());
                 System.out.println("Volumen: " + libros.getVolumen());
                 System.out.println("Autor: " + libros.getAutor());
-                System.out.println("Precio: " + libros.getPrecio());
                 System.out.println("Estado: " + libros.getEstado());
 
             }
@@ -32,7 +31,6 @@ public class TestLibros {
         l.setTitulo("Harry Potter y la pieda filosofal");
         l.setVolumen("1");
         l.setAutor("J.K");
-        l.setPrecio(10.0);
         l.setEstado("Disponible");
 
         boolean result = dao.insert(l);

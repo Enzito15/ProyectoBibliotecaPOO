@@ -34,8 +34,6 @@ public class LibrosController {
     @FXML
     private TableColumn<Libros, String> ColAutor;
     @FXML
-    private TableColumn<Libros, Double> ColPrecio;
-    @FXML
     private TableColumn<Libros, String> ColEstado;
 
     @FXML
@@ -66,7 +64,6 @@ public class LibrosController {
         ColTitulo.setCellValueFactory(cellData -> cellData.getValue().tituloProperty());
         ColVolumen.setCellValueFactory(cellData -> cellData.getValue().volumenProperty());
         ColAutor.setCellValueFactory(cellData -> cellData.getValue().autorProperty());
-        ColPrecio.setCellValueFactory(cellData -> cellData.getValue().precioProperty().asObject());
         ColEstado.setCellValueFactory(cellData -> cellData.getValue().estadoProperty());
         //LLamar al metodo
         cargarDatos();

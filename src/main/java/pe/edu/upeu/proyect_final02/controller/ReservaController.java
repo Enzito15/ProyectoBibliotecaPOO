@@ -26,6 +26,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class ReservaController {
@@ -137,9 +138,14 @@ public class ReservaController {
 
     @FXML
     private void handleNew() {
-        // solo se pueden reservar libros disponibles
+        // solo se pueden reservar libros disponibles que no esten alquilados
+        Set<Integer> alquilados = reservaDao.rlistAll().stream()
+                .filter(r -> !ReservaDaoImpl.DEVUELTO.equals(r.getEstado()))
+                .map(r -> r.getLibro().getIdlibros())
+                .collect(Collectors.toSet());
         List<Libros> disponibles = librosDao.listAll().stream()
                 .filter(l -> l.getEstado() != null && l.getEstado().trim().equalsIgnoreCase("Disponible"))
+                .filter(l -> !alquilados.contains(l.getIdlibros()))
                 .collect(Collectors.toList());
         if (disponibles.isEmpty()) {
             utilAlerts.mostrarAlerts("Sin libros", "No hay libros disponibles para reservar", "WARNING").showAndWait();
@@ -155,6 +161,8 @@ public class ReservaController {
             utilAlerts.mostrarAlerts("Seleccion requerida", "Seleccione una reserva", "WARNING").showAndWait();
             return;
         }
+        // si ya vencio el plazo se marca "No devuelto" y se aplica la multa antes de devolver
+        reservaDao.updateVencidas();
         if (ReservaDaoImpl.DEVUELTO.equals(seleccionada.getEstado())) {
             utilAlerts.mostrarAlerts("Reserva devuelta", "Esta reserva ya fue marcada como devuelta", "WARNING").showAndWait();
             return;

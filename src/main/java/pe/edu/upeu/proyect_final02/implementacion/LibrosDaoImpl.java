@@ -16,15 +16,14 @@ public class LibrosDaoImpl implements ILibrosDao {
     @Override
     public boolean insert(Libros l) {
         boolean flag = false;
-        String query = "INSERT INTO libros(numero,titulo,volumen,autor,precio,estado)VALUES(?,?,?,?,?,?);";
+        String query = "INSERT INTO libros(numero,titulo,volumen,autor,estado)VALUES(?,?,?,?,?);";
         try (Connection cn = ConexionBD.getConnection();
              PreparedStatement st = cn.prepareStatement(query);) {
             st.setString(1, l.getNumero());
             st.setString(2, l.getTitulo());
             st.setString(3, l.getVolumen());
             st.setString(4, l.getAutor());
-            st.setDouble(5, l.getPrecio());
-            st.setString(6, l.getEstado());
+            st.setString(5, l.getEstado());
             st.executeUpdate();
             flag = true;
 
@@ -37,14 +36,13 @@ public class LibrosDaoImpl implements ILibrosDao {
     @Override
     public boolean update(Libros c) {
         boolean flag = false;
-        String query = "UPDATE libros SET numero=?,titulo=?,volumen=?,autor=?,precio=?,estado=? WHERE idlibros=?";
+        String query = "UPDATE libros SET numero=?,titulo=?,volumen=?,autor=?,estado=? WHERE idlibros=?";
         try (Connection cn = ConexionBD.getConnection();
              PreparedStatement st = cn.prepareStatement(query);) {
             st.setString(1, c.getNumero());
             st.setString(2, c.getTitulo());
             st.setString(3, c.getAutor());
             st.setString(4, c.getVolumen());
-            st.setDouble(5, c.getPrecio());
             st.setString(6, c.getEstado());
             st.setInt(7, c.getIdlibros());
             st.executeUpdate();
@@ -71,7 +69,6 @@ public class LibrosDaoImpl implements ILibrosDao {
                     l.setTitulo(rs.getString("titulo"));
                     l.setVolumen(rs.getString("volumen"));
                     l.setAutor(rs.getString("autor"));
-                    l.setPrecio(rs.getDouble("precio"));
                     l.setEstado(rs.getString("estado"));
                 }
             }
@@ -113,7 +110,6 @@ public class LibrosDaoImpl implements ILibrosDao {
                 l.setTitulo(rs.getString("titulo"));
                 l.setVolumen(rs.getString("volumen"));
                 l.setAutor(rs.getString("autor"));
-                l.setPrecio(rs.getDouble("precio"));
                 l.setEstado(rs.getString("estado"));
                 lista.add(l);
 
@@ -140,7 +136,6 @@ public class LibrosDaoImpl implements ILibrosDao {
                     l.setTitulo(rs.getString("titulo"));
                     l.setVolumen(rs.getString("volumen"));
                     l.setAutor(rs.getString("autor"));
-                    l.setPrecio(rs.getDouble("precio"));
                     l.setEstado(rs.getString("estado"));
                 }
             }

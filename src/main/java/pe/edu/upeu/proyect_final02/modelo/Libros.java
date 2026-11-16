@@ -8,7 +8,6 @@ public class Libros {
     private final StringProperty titulo = new SimpleStringProperty();
     private final StringProperty volumen = new SimpleStringProperty();
     private final StringProperty autor = new SimpleStringProperty();
-    private final DoubleProperty precio = new SimpleDoubleProperty();
     private final StringProperty estado = new SimpleStringProperty();
 
     public Libros() {
@@ -20,7 +19,6 @@ public class Libros {
         setTitulo(titulo);
         setVolumen(volumen);
         setAutor(autor);
-        setPrecio(precio);
         setEstado(estado);
     }
 
@@ -35,20 +33,6 @@ public class Libros {
     public final StringProperty estadoProperty() {
         return estado;
     }
-
-
-    public final double getPrecio() {
-        return precio.get();
-    }
-
-    public final void setPrecio(double value) {
-        precio.set(value);
-    }
-
-    public final DoubleProperty precioProperty() {
-        return precio;
-    }
-
 
     public final String getAutor() {
         return autor.get();

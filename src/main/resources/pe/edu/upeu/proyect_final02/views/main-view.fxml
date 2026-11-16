@@ -30,7 +30,7 @@
                     </HBox.margin>
                 </Label>
                 <Region HBox.hgrow="ALWAYS"/>
-                <Label text="Bienvenido, Usuario :D" textFill="dimgray">
+                <Label text="Bienvenido," fx:id="lblUsuario" textFill="dimgray">
                     <font>
                         <Font name="System Italic" size="14.0"/>
                     </font>
@@ -49,6 +49,8 @@
              <Button maxWidth="-Infinity" onAction="#showClient" styleClass="nav-button" text="Clientes"/>
              <Button maxWidth="-Infinity" onAction="#showLibros" styleClass="nav-button" text="Libros"/>
              <Button maxWidth="-Infinity" onAction="#showReserva" styleClass="nav-button" text="Alquiler"/>
+             <Region VBox.vgrow="ALWAYS"/>
+             <Button maxWidth="-Infinity" onAction="#handleLogout" mnemonicParsing="false" style="-fx-text-fill: #ff6666 " styleClass="nav-button" text="Cerrar Sesion"/>
          </children>
      </VBox>
     </left>

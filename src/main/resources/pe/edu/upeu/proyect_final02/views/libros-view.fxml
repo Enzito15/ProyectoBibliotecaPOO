@@ -37,7 +37,6 @@
                 <TableColumn fx:id="ColTitulo" prefWidth="150.0" text="Titulo"/>
                 <TableColumn fx:id="ColVolumen" prefWidth="150.0" text="Volumen"/>
                 <TableColumn fx:id="ColAutor" prefWidth="80.0" text="Autor"/>
-                <TableColumn fx:id="ColPrecio" prefWidth="80.0" text="Precio"/>
                 <TableColumn fx:id="ColEstado" prefWidth="180.0" text="Estado"/>
             </columns>
             <columnResizePolicy>

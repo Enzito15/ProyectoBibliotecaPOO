@@ -20,7 +20,7 @@ public class LibrosFromController {
     @FXML
     private Label lbTitulo;
     @FXML
-    private TextField txtNumero, txtTitulo, txtVolumen, txtAutor, txtPrecio,txtEstado;
+    private TextField txtNumero, txtTitulo, txtVolumen, txtAutor,txtEstado;
     @FXML
     private Libros libros;
     private boolean saved = false;
@@ -60,21 +60,11 @@ public class LibrosFromController {
     @FXML
     private void handleSave(){
         if (validated()){
-            double precio;
-            try {
-                precio = Double.parseDouble(txtPrecio.getText().trim());
-            } catch (NumberFormatException e) {
-                Alert alert = utilsAlerts.mostrarAlerts("", "El precio debe ser un número válido", "ERROR");
-                alert.show();
-                return;
-            }
-
             if (libros == null) libros = new Libros();
             libros.setNumero(txtNumero.getText().trim());
             libros.setTitulo(txtTitulo.getText());
             libros.setVolumen(txtVolumen.getText());
             libros.setAutor(txtAutor.getText());
-            libros.setPrecio(precio);
             libros.setEstado(txtEstado.getText());
             saved = true;
             cerrar();
@@ -89,7 +79,6 @@ public class LibrosFromController {
             txtTitulo.setText(l.getTitulo());
             txtVolumen.setText(l.getVolumen());
             txtAutor.setText(l.getAutor());
-            txtPrecio.setText(String.valueOf(l.getPrecio()));
             txtEstado.setText(l.getEstado());
         }
     }
