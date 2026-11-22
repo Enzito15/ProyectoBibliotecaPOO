@@ -20,7 +20,7 @@
                     <font><Font name="System Bold" size="20.0"/> </font>
                 </Label>
                 <Region HBox.hgrow="ALWAYS"/>
-                <Button mnemonicParsing="false" styleClass="button-login" onAction="#handleNew" text="+ New"/>
+                <Button mnemonicParsing="false" styleClass="button-login" onAction="#handleNew" text="+ Nuevo Cliente"/>
             </children>
         </HBox>
         <HBox alignment="CENTER_LEFT" spacing="10.0">

@@ -20,6 +20,10 @@ public class ReservaDaoImpl implements IReservaDao {
     public static final String NO_DEVUELTO = "No devuelto";
     public static final String DEVUELTO = "Devuelto";
     public static final double MULTA = 20.0;
+    // estados del libro segun su reserva
+    public static final String LIBRO_DISPONIBLE = "Disponible";
+    public static final String LIBRO_OCUPADO = "Ocupado";
+    public static final String LIBRO_SIN_DEVOLVER = "Sin devolver";
 
     // Consulta base: une reserva con cliente y libros
     private static final String SELECT_BASE = " SELECT r.*,c.nombre|| ' ' ||c.apellidos AS nombre_completo," +
@@ -44,6 +48,8 @@ public class ReservaDaoImpl implements IReservaDao {
             st.setString(6, r.getEstado());
             st.setDouble(7, r.getTotal());
             st.executeUpdate();
+            // al hacerse el alquiler el libro pasa a "Ocupado"
+            cambiarEstadoLibro(cn, r.getLibro().getIdlibros(), LIBRO_OCUPADO);
             flag = true;
 
         } catch (SQLException e) {
@@ -98,6 +104,10 @@ public class ReservaDaoImpl implements IReservaDao {
              PreparedStatement st = cn.prepareStatement(query);) {
             st.setInt(1, r.getIdreserva());
             st.executeUpdate();
+            // si la reserva eliminada seguia abierta, el libro vuelve a estar disponible
+            if (!DEVUELTO.equals(r.getEstado())) {
+                cambiarEstadoLibro(cn, r.getLibro().getIdlibros(), LIBRO_DISPONIBLE);
+            }
             flag = true;
 
         } catch (SQLException e) {
@@ -133,6 +143,10 @@ public class ReservaDaoImpl implements IReservaDao {
             st.setString(1, r.getEstado());
             st.setInt(2, r.getIdreserva());
             st.executeUpdate();
+            // al devolverse el libro vuelve a estar "Disponible"
+            if (DEVUELTO.equals(r.getEstado())) {
+                cambiarEstadoLibro(cn, r.getLibro().getIdlibros(), LIBRO_DISPONIBLE);
+            }
             flag = true;
 
         } catch (SQLException e) {
@@ -198,10 +212,34 @@ public class ReservaDaoImpl implements IReservaDao {
             st.setString(3, ACTIVA);
             st.setString(4, LocalDate.now().toString());
             cambiadas = st.executeUpdate();
+            sincronizarLibros(cn);
         } catch (SQLException e) {
             System.out.println("Error al actualizar reservas vencidas: " + e.getMessage());
         }
         return cambiadas;
+    }
+
+    // cambia el estado de un libro (columna estado de la tabla libros)
+    private void cambiarEstadoLibro(Connection cn, int idlibros, String estado) throws SQLException {
+        try (PreparedStatement st = cn.prepareStatement("UPDATE libros SET estado=? WHERE idlibros=?")) {
+            st.setString(1, estado);
+            st.setInt(2, idlibros);
+            st.executeUpdate();
+        }
+    }
+
+    // deja el estado de los libros acorde a sus reservas:
+    // reserva Activa -> "Ocupado", reserva No devuelto (paso la fecha) -> "Sin devolver"
+    private void sincronizarLibros(Connection cn) throws SQLException {
+        try (PreparedStatement st = cn.prepareStatement(
+                "UPDATE libros SET estado=? WHERE idlibros IN (SELECT libroId FROM reserva WHERE estado=?)")) {
+            st.setString(1, LIBRO_OCUPADO);
+            st.setString(2, ACTIVA);
+            st.executeUpdate();
+            st.setString(1, LIBRO_SIN_DEVOLVER);
+            st.setString(2, NO_DEVUELTO);
+            st.executeUpdate();
+        }
     }
     // arma la reserva con sus objetos relacionados (cliente y libro)
     private Reserva mapear(ResultSet rs) throws SQLException {

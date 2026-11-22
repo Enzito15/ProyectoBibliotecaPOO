@@ -11,6 +11,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import pe.edu.upeu.proyect_final02.HelloApplication;
 import pe.edu.upeu.proyect_final02.implementacion.LibrosDaoImpl;
+import pe.edu.upeu.proyect_final02.implementacion.ReservaDaoImpl;
 import pe.edu.upeu.proyect_final02.interfaces.ILibrosDao;
 import pe.edu.upeu.proyect_final02.modelo.Libros;
 import pe.edu.upeu.proyect_final02.utils.UtilsAlerts;
@@ -71,6 +72,8 @@ public class LibrosController {
     }
 
     private void cargarDatos() {
+        // antes de listar, se actualizan las reservas vencidas y con ellas el estado de los libros
+        new ReservaDaoImpl().updateVencidas();
         listaClientes = FXCollections.observableArrayList(librosDao.listAll());
         tableLibros.setItems(listaClientes);
     }

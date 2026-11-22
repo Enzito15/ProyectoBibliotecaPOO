@@ -19,6 +19,8 @@ public class LibrosDaoImpl implements ILibrosDao {
         String query = "INSERT INTO libros(numero,titulo,volumen,autor,estado)VALUES(?,?,?,?,?);";
         try (Connection cn = ConexionBD.getConnection();
              PreparedStatement st = cn.prepareStatement(query);) {
+            // el numero del libro se genera solo: el siguiente al mayor que exista
+            l.setNumero(siguienteNumero(cn));
             st.setString(1, l.getNumero());
             st.setString(2, l.getTitulo());
             st.setString(3, l.getVolumen());
@@ -33,18 +35,26 @@ public class LibrosDaoImpl implements ILibrosDao {
         return flag;
     }
 
+    // devuelve el siguiente numero de libro (mayor numero existente + 1)
+    private String siguienteNumero(Connection cn) throws SQLException {
+        String query = "SELECT COALESCE(MAX(CAST(numero AS INTEGER)),0)+1 FROM libros";
+        try (PreparedStatement st = cn.prepareStatement(query);
+             ResultSet rs = st.executeQuery()) {
+            return rs.next() ? String.valueOf(rs.getInt(1)) : "1";
+        }
+    }
+
     @Override
     public boolean update(Libros c) {
         boolean flag = false;
-        String query = "UPDATE libros SET numero=?,titulo=?,volumen=?,autor=?,estado=? WHERE idlibros=?";
+        String query = "UPDATE libros SET titulo=?,volumen=?,autor=?,estado=? WHERE idlibros=?";
         try (Connection cn = ConexionBD.getConnection();
              PreparedStatement st = cn.prepareStatement(query);) {
-            st.setString(1, c.getNumero());
-            st.setString(2, c.getTitulo());
+            st.setString(1, c.getTitulo());
+            st.setString(2, c.getVolumen());
             st.setString(3, c.getAutor());
-            st.setString(4, c.getVolumen());
-            st.setString(6, c.getEstado());
-            st.setInt(7, c.getIdlibros());
+            st.setString(4, c.getEstado());
+            st.setInt(5, c.getIdlibros());
             st.executeUpdate();
             flag = true;
 
