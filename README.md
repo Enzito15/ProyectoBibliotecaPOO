@@ -6,7 +6,7 @@ Curso: Programación Orientada a Objetos (POO)
 
 Título del proyecto: Sistema Integral de Biblioteca
 
-Grupo: 3
+Grupo: 4
 
 Nombres de los miembros del grupo:
 - Enzo Yair Diaz Mejía 
